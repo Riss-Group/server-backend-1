@@ -7,13 +7,14 @@ from odoo import api, models
 class ResUsers(models.Model):
     _inherit = "res.users"
 
-    @classmethod
-    def authenticate(cls, db, credential, user_agent_env):
-        auth_info = super().authenticate(db, credential, user_agent_env)
+    # Odoo 19 : res.users.authenticate est passé en méthode d'instance et a
+    # perdu le paramètre `db` -> signature (self, credential, user_agent_env).
+    def authenticate(self, credential, user_agent_env):
+        auth_info = super().authenticate(credential, user_agent_env)
         # On login, ensure the proper roles are applied
         # The last Role applied may not be the correct one,
         # sonce the new session current company can be different
-        with cls.pool.cursor() as cr:
+        with self.pool.cursor() as cr:
             env = api.Environment(cr, auth_info["uid"], {})
             if env.user.role_line_ids:
                 env.user.set_groups_from_roles()
