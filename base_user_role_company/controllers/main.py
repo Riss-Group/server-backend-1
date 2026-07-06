@@ -7,9 +7,11 @@ from odoo.addons.web.controllers.home import Home
 
 
 class HomeExtended(Home):
+    # Odoo 19 : la signature du contrôleur est passée de web_load_menus(unique)
+    # à web_load_menus(lang=None) (la route ne prend plus le segment `unique`).
     @http.route()
-    def web_load_menus(self, unique):
-        response = super().web_load_menus(unique)
+    def web_load_menus(self, lang=None):
+        response = super().web_load_menus(lang=lang)
         # On logout & re-login we could see wrong menus being rendered
         # To avoid this, menu http cache must be disabled
         response.headers.remove("Cache-Control")
