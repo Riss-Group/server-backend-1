@@ -67,7 +67,9 @@ class BaseSecurityUpdateRequest(models.Model):
         # display_name basé sur l'id (immuable) : pas d'@api.depends (interdit
         # sur 'id' en 17).
         for rec in self:
-            rec.display_name = f"#{rec.id}" if rec.id else _("New")
+            # unsaved record (NewId): leave empty so the web client shows
+            # its standard "New" fallback
+            rec.display_name = f"#{rec.id}" if rec.id else False
 
     def _compute_action_confirm_allowed(self):
         is_super_approver = self._is_user_super_approver()
