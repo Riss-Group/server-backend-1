@@ -8,7 +8,7 @@
         Views related to security models become readonly and each update
         of user's groups or groups is done after the workflow of a
         dedicated model is approved.""",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/server-backend",
